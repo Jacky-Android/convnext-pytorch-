@@ -213,7 +213,8 @@ def create_lr_scheduler(optimizer,
             # warmup后lr倍率因子从1 -> end_factor
             return ((1 + math.cos(current_step * math.pi / cosine_steps)) / 2) * (1 - end_factor) + end_factor
 
-    return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=f)
+    return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
+
 
 
 def get_params_groups(model: torch.nn.Module, weight_decay: float = 1e-5):
